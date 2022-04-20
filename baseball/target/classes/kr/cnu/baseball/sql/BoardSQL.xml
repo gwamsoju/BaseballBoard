@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bSQL">
+
+<select id="getBoardList" resultType="bVO" >
+	select
+		rownum rn, brdno, brdtitle, nickname, wdate, content, clicknum, udate
+	from
+		board
+	order by
+		rn desc
+</select>
+<update id="clicknum" parameterType="int">
+	update board set 
+			clicknum = NVL(clicknum, 0) + 1
+			where
+				brdno = #{brdno}
+</update>
+
+<insert id="insertBoard" parameterType="bVO">
+	
+	<selectKey keyProperty="brdno" resultType="int" order="BEFORE">
+		select NVL(MAX(brdno)+1,2) brdno from board
+	</selectKey>
+
+	INSERT INTO
+		board (brdno, brdtitle, nickname, content)
+	VALUES(
+		#{brdno}, #{brdtitle}, #{nickname},#{content}
+	)
+	
+</insert>
+
+<select id="selectBoardByBrdno" resultType="bVO" parameterType="int">
+	Select
+		brdtitle, nickname, clicknum, content, wdate, brdno
+	from
+		board
+	where
+		brdno = #{brdno}
+</select>
+<update id="boardUpdate"  parameterType="bVO" >
+	update board set 
+				brdtitle = #{brdtitle},
+				content = #{content},
+				udate = sysdate 
+			where
+			brdno = #{brdno}
+	
+</update>
+<delete id="boardDelete" parameterType="int">
+	delete board where brdno = #{brdno}
+</delete>
+</mapper>

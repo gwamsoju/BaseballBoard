@@ -1,0 +1,65 @@
+# 메인 페이지 요청 설계 
+요청내용 : /baseball
+파라미터 : 무
+컨트롤러 : kr.cnu.baseball.controller.MainController
+실행함수 : getView()
+뷰	  : /WEB-INF/views/main.jsp
+-----------------------------------------------------------------------------------------------------------------
+# 로그인 처리 요청 
+요청내용 : /baseball/member/loginProc.cnu
+파라미터 : id , pw
+컨트롤러 : kr.cnu.baseball.controller.Member
+실행함수 : loginProc()
+뷰	  : /baseball
+-----------------------------------------------------------------------------------------------------------------
+# 로그아웃 처리 요청
+요청내용 : /baseball/member/logout.cnu
+파라미터 : 무
+컨트롤러 : kr.cnu.baseball.controller.Member
+실행함수 : logout()
+뷰	  : /baseball
+-----------------------------------------------------------------------------------------------------------------
+# 내정보 처리 요청
+요청내용 : /baseball/member/Myinfo.cnu
+파라미터 : id , pw
+컨트롤러 : kr.cnu.baseball.controller.Member
+실행함수 : getMyinfo()
+뷰	  : /WEB-INF/views/Myinfo.jsp
+-----------------------------------------------------------------------------------------------------------------
+# 회원가입  폼보기 요청
+요청내용 : /baseball/member/join.cnu
+파라미터 : 무
+컨트롤러 : kr.cnu.baseball.controller.Member
+실행함수 : join()
+뷰	  : 로그인 되어 있는 경우 ] /baseball
+		로그인 안되어 있는 경우 ] /WEB-INF/views/member/join.jsp
+-----------------------------------------------------------------------------------------------------------------
+# 회원가입  폼보기 요청
+요청내용 : /baseball/member/join.cnu
+파라미터 : 무
+컨트롤러 : kr.cnu.baseball.controller.Member
+실행함수 : join()
+뷰	  : 로그인 되어 있는 경우 ] /baseball
+		로그인 안되어 있는 경우 ] /WEB-INF/views/member/join.jsp
+-----------------------------------------------------------------------------------------------------------------
+# 회원가입 처리 요청
+
+요청내용 :	/baseball/member/joinProc.cnu
+파라미터 :	name, id, pw, gen
+컨트롤러 :	kr.cnu.baseball.controller.Member
+실행함수 :	joinProc()
+뷰		 : 	
+			[ 성공 ] - /baseball		: 로그인 처리해서 메인 화면으로 
+			[ 실패 ] - /baseball/member/join.cnu
+----------------------------------------------------------------------------------------------------------------------
+# 정보수정 요청
+
+요청내용 :	/baseball/member/infochan.cnu
+파라미터 :	
+컨트롤러 :	kr.cnu.baseball.controller.Member
+실행함수 :	editInfo()
+뷰		 : 	
+			[ 성공 ] - /baseball		: 로그인 처리해서 메인 화면으로 
+			[ 실패 ] - /baseball/member/
+----------------------------------------------------------------------------------------------------------------------
+

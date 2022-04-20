@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="nSQL">
+	
+	<!-- 총 게시글 수 조회 질의명령 -->
+	<select id="totalCnt" resultType="int">
+		SELECT
+			count(*)
+		FROM
+			news
+		WHERE
+			isshow = 'Y'
+	</select>
+	
+	<!-- 뉴스 정보를 가져오는 쿼리 -->
+	<select	id="getNews" resultType="nVO" parameterType="page">
+		SELECT
+			rno, nno, t_news, c_news, n_from, n_date
+		FROM
+			(
+				SELECT
+					ROWNUM rno, nno, t_news, c_news, n_from, n_date
+				FROM
+					(
+					SELECT
+						nno, t_news, c_news, n_from, n_date
+					FROM
+						news
+					ORDER BY
+						n_date DESC
+					)
+			)
+		WHERE
+			rno BETWEEN #{startCont} AND #{endCont}
+	</select>
+	
+	<insert id="writeNews" parameterType="nVO">
+		<selectKey resultType="int" keyProperty="nno" order="BEFORE">
+			SELECT NVL(MAX(nno) +1 , 2) nno from NEWS
+		</selectKey>
+		INSERT INTO NEWS (nno, t_news, c_news, n_from)
+		VALUES(
+			#{nno}, #{t_news}, #{c_news}, #{n_from}
+		)
+		
+	</insert>
+	
+ <!--  뉴스 기사 상세보기 -->
+ <select id="newsSelect" resultType="nVO" parameterType="int">
+ 	select 
+ 		t_news, n_from, n_date, c_news, nno
+ 	from
+ 		news
+ 	where
+ 		nno = #{nno}
+ </select>
+</mapper>

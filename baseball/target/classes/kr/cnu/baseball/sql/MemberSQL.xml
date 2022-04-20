@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mSQL">
+	<!-- 로그인  -->
+	<select id="login" resultType="int" parameterType="mVO">
+		SELECT
+			count(*)
+		FROM
+			m_info
+		WHERE
+			id = #{id}
+			AND pwd = #{pwd}
+	</select>
+	
+	<!-- 회원 정보 가져오는 쿼리 -->
+	<select id="getInfo" resultType="mVO" parameterType="mVO">
+		SELECT
+			mno, mname, id,grd, p_no, favoteam, grade
+		FROM
+			m_info
+		WHERE
+			id = #{id}
+	</select>
+	
+	<!-- idCheck -->
+	<select id="idCheck" resultType="int" parameterType="string">
+		SELECT
+			count(*)
+		FROM
+			m_info
+		WHERE
+			id = #{id}
+	</select>
+	
+	<!-- 회원가입 질의명령  -->
+	<insert id="addMember" parameterType="mVO">
+		<selectKey keyProperty="mno" resultType="int" order="BEFORE">
+			SELECT NVL(MAX(mno) + 1, 2) mno FROM m_info
+		</selectKey>
+		
+		INSERT INTO
+			m_info(mno, mname, id, pwd, grd, favoteam)
+		VALUES(
+<!-- 
+ 			(SELECT NVL(MAX(mno) + 1, 1001) FROM member),
+ -->			
+			#{mno}, #{mname}, #{id}, #{pwd}, #{grd}, #{favoteam}
+		)
+	</insert>
+	
+	<!-- 회원정보 수정 질의명령 -->
+	<update id="editInfo" parameterType="mVO">
+		UPDATE m_info set 
+					pwd = #{pwd},
+					favoteam = #{favoteam}
+		where
+			mno = #{mno} 
+	</update>
+	
+</mapper>
